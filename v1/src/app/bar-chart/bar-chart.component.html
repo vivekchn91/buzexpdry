@@ -1,0 +1,109 @@
+<div [id]="'chart_config'+id" *ngIf="settingsFlag">
+	<div class="form-group">
+		<label for="Heading">Heading</label>
+		<input type="text" class="form-control" name="heading" [(ngModel)]="chartHeading"/>
+	</div>
+	<!--div class="form-group">
+		<label for="height">Height</label>
+		<input type="text" class="form-control" name="height" [(ngModel)]="height"/>
+	</div>
+	<div class="form-group">
+		<label for="Width">Width</label>
+		<input type="text" class="form-control" name="width" [(ngModel)]="width" />
+	</div-->
+		<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>
+					<input type="text" class="form-control" placeholder="Height" 
+					name="height" [(ngModel)]="height"/>
+				</td>
+				<td>
+					<select class="form-control" [(ngModel)]="showxAxisLabels">
+						<option disabled="">x Axis Label</option>
+						<option value="true">Show</option>
+						<option value="false">Hide</option>
+					</select>
+				</td>
+				<td>
+					<select class="form-control" [(ngModel)]="dataLable">
+						<option disabled="">Data Label</option>
+						<option value="true">Show</option>
+						<option value="false">Hide</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="selecting Group by">Group by</label></td>
+				<td colspan="2">
+					<select class="form-control" [(ngModel)]="groupBy">
+						<option *ngFor="let title of titleArray" 
+						[value]="title.value" [text]="title.text"></option>
+					</select>
+				</td>
+			</tr>
+	
+			<tr>
+				<td colspan="2">
+					<label for="Fields to compare">Fields to compare</label>
+				</td>
+    			<td>
+    				<button class="btn btn-sm btn-primary pull-right" (click)="add()">
+						<i class="fas fa-puzzle-piece"></i>
+					</button>
+    			</td>
+  			</tr>
+			<tr>
+				<td>Fields</td>
+				<td>Measure</td>
+				<td>Action</td>
+			</tr>
+			<tr *ngFor="let config of addBar; index as i">
+				<td>
+					<select class="" [(ngModel)]="config.attribute" class="form-control">
+						<option *ngFor="let measure of config.measuresArray" 
+						[ngValue]="measure">{{measure.text}}</option>
+					</select>
+					<!-- {{config.attribute | json}} -->
+				</td>
+				<td>
+					<select class="" [(ngModel)]="config.measure" class="form-control"
+					*ngIf="config.attribute !== undefined && checkMeaure(i)">
+						<option value="sum">Sum</option>
+						<option value="median">Median</option>
+						<option value="count">Count</option>
+						<option value="mean">Mean</option>
+						<option value="min">Minumum</option>
+						<option value="max">Maximum</option>
+					</select>
+					<select class="" [(ngModel)]="config.measure" class="form-control"
+					*ngIf="config.attribute !== undefined && !checkMeaure(i)">
+						<option value="count">Count</option>
+					</select>
+				</td>
+				<td>
+					<button class="btn btn-sm btn-primary pull-right" (click)="remove(i)">
+							<i class="fas fa-trash-alt"></i>
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td>
+					<button class="btn btn-default" *ngIf="addBar.length >0" (click)="updateSettings()">Visualize</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- <div class="btn-group" *ngIf="addBar.length > 0">
+	<button type="button" class="btn btn-primary " (click)="changeChartType('bar')">Bar</button>
+	<button type="button" class="btn btn-primary" (click)="changeChartType('line')">Line</button>
+</div> -->
+
+<p [id]="'heading'+id" [innerHtml]="chartHeading" style="text-align: center;font-size: large;"></p>
+<p *ngIf="showLoading">Loading chart pl wait</p>
+<div [id]="'chart'+id" [style.width]="">
+	
+</div>

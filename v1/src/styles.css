@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+
+.blue-fg {
+    color: #2196f3 !important;
+}
+
+.red-fg {
+    color: #f44336 !important;
+}
+
+.font-size-10 {
+    font-size: 10px;
+}
+
+.text-italic {
+    font-style: italic;
+}
+
+.cursor-pointer{
+	cursor: pointer;
+}
+
+.bs-callout {
+    padding: 10px;
+    margin: 2px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout-info {
+    border-left-color: #1b809e;
+}
+
+.menu-border{
+      border: 1px dashed white;
+}
+
+/*
+Below code is for side nav
+*/
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+/* sidebar ends*/

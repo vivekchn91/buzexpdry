@@ -1,0 +1,53 @@
+<div class="panel panel-primary" style="padding: 0px;">
+      <div class="panel-heading">
+        {{componentName.heading}}
+        <span class="pull-right cursor-pointer" 
+        tooltip="Settings"
+        (click)="openSettings()" [ngClass]="{'menu-border': showSettings === true}">
+        <i class="fas fa-cog"></i>
+      </span>
+
+      	<span class="pull-right cursor-pointer" tooltip="Remove" (click)="deleteChart(index)">
+      		<i class="fas fa-trash-alt"></i>
+      		&nbsp;&nbsp;&nbsp;
+      	</span>
+      <span class="pull-right cursor-pointer" tooltip="Maximize" (click)="maximize()">
+        <i class="far fa-window-maximize"></i>
+        &nbsp;&nbsp;&nbsp;
+      </span>
+      <span class="pull-right cursor-pointer" tooltip="Minimize"
+        (click)="minimize()" [ngClass]="{'menu-border': minimizeFlag === true}">
+        <i class="far fa-window-minimize"></i>
+        &nbsp;&nbsp;&nbsp;
+      </span> 
+    </div>
+    <div class="panel-body" #pannelView [ngClass]="(minimizeFlag == true)? 'hide': 'show'">
+<!-- *ngIf="!minimizeFlag" -->
+     <!-- <app-setting *ngIf="showSettings === true" (valueChange)='displayCounter($event)'></app-setting> -->
+<!--      <app-circle-packing 
+     *ngIf="componentName.chart === 'circle-packing' && showSettings === false"
+     [data]="componentName.data" [height]="500" [width]="500" [id]="index"
+     >
+   </app-circle-packing> -->
+   <app-bubble-chart
+   *ngIf="componentName.chart === 'bubble-chart'" (settingsFlagChange)="setSettings($event)"
+   [data]="componentName.data" [height]="500" [width]="deriveWidth(componentName.column)" [id]="index"
+   [settingsFlag]="showSettings">
+    </app-bubble-chart>
+
+    <app-bar-chart
+   *ngIf="componentName.chart === 'bar-chart'" (settingsFlagChange)="setSettings($event)"
+   [data]="componentName.data" [height]="500" [width]="deriveWidth(componentName.column)" [id]="index"
+   [settingsFlag]="showSettings"
+    ></app-bar-chart>
+
+    <app-pie-chart
+   *ngIf="componentName.chart === 'pie-chart'" (settingsFlagChange)="setSettings($event)"
+   [data]="componentName.data" [height]="500" [width]="deriveWidth(componentName.column)" [id]="index"
+   [settingsFlag]="showSettings"
+    ></app-pie-chart>
+
+
+</div>
+
+</div>

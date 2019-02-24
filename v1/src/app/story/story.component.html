@@ -1,0 +1,80 @@
+<!-- .has-warning, .has-error, or .has-success -->
+<div class="bs-callout bs-callout-info col-sm-12" id=""> 
+<!-- 	<h3 *ngIf="!configDb">
+		Visualize Data
+	</h3> -->
+	<!-- <h4>Alternate elements</h4>  -->
+	<p>
+		<span class="has-warning" *ngIf="showConfig && !chartType">Select Chart Type </span>
+		<span class="has-warning" *ngIf="configDb && !seqData">Csv File</span>
+
+		<button type="button" class="btn btn-primary pull-right" 
+			(click)="configDb = !configDb">
+			<i class="fas fa-toggle-off fa-2x" *ngIf="!configDb"></i>
+			<i class="fas fa-toggle-on fa-2x" *ngIf="configDb"></i>
+		</button>
+		<span class="pull-right" *ngIf="!configDb"> Click here to config chart--></span>
+
+
+	</p>
+
+	<div class="col-sm-12" *ngIf="configDb">
+		<form class="form-inline">
+			<div class="form-group">
+				<label class="sr-only" for="file TYpe selection">File type</label>
+				<select name="fileType" style="padding: 5px;" 
+				[(ngModel)]="selectFileType" class="form-control">
+				<option *ngFor="let fileType of selectFileArray" 
+				[value]="fileType.value" [text]="fileType.text"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="sr-only" for="exampleInputFile">File select</label>
+				<div class="file btn btn-primary" >
+					<i class="fas fa-file-csv"></i> &nbsp;&nbsp;Upload
+					<input type="file" name="file" (change)="readCSV($event)"/>
+				</div>
+			</div>
+
+			<button type="button" class="btn btn-primary " 
+			(click)="showConfig = !showConfig" *ngIf="seqData">
+			<i class="fas fa-plus"></i> chart
+			</button>
+			<label>{{fileName}}</label>
+		</form>
+
+		<form class="form-inline" *ngIf="showConfig" style="margin-top: 5px;">
+		<!-- <div class="col-sm-12" *ngIf="showConfig" style="margin-top: 5px; padding-left: 0px;"> -->
+			<div class="form-group">
+				<select style="padding: 5px;" name="chartTypeArray" 
+				[(ngModel)]="chartType" class="form-control">
+					<option *ngFor="let chart of chartTypeArray" 
+					[ngValue]="chart" [text]="chart.text"></option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<select style="padding: 5px;" name="columnLayoutArray"
+				[(ngModel)]="columnLayoutOpt" class="form-control">
+					<option *ngFor="let column of columnLayoutArray" 
+					[ngValue]="column" [text]="column.text"></option>
+				</select>
+			</div>
+
+		<!-- 		<div class="file btn btn-sm btn-primary" >
+					<i class="fas fa-file-csv"></i> &nbsp;&nbsp;Upload
+					<input type="file" name="file" (change)="readCSV($event)"/>
+				</div> -->
+				<button class="btn btn-sm btn-primary" (click)="addcharts()"> Render Chart</button>
+				<!-- <button class="btn btn-sm btn-default" (click)="reset()"> Reset</button> -->
+
+		</form>
+	</div>
+	<!-- <app-data-config *ngIf="configDb" ></app-data-config>  -->
+</div>
+
+<div class="col-sm-12" style="padding: 0px 10px">
+	<app-pannel *ngFor="let chart of chartList; let i = index"
+	[ngClass]="chart.column" (deleteFlagChange)="removeChart($event)"
+	[componentName]="chart" [index]="i"></app-pannel>
+</div>

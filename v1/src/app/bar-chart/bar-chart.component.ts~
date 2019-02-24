@@ -1,0 +1,151 @@
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import {FormsModule} from '@angular/forms';
+
+import * as d3 from  'd3';
+import * as c3 from 'c3';
+
+@Component({
+  selector: 'app-bar-chart',
+  templateUrl: './bar-chart.component.html',
+  styleUrls: ['./bar-chart.component.css']
+})
+export class BarChartComponent implements OnInit {
+
+  @Input()
+  id: number;
+
+  @Input()
+  data: any;
+
+  @Input()
+  height: number;
+
+  @Input()
+  width: number;
+
+  @Input()
+  settingsFlag :boolean;
+
+  @Output() 
+  settingsFlagChange = new EventEmitter();
+
+  titleArray:any;
+
+  addBar: any;
+
+  xAxisLabels: any;
+
+  yAxisData:any;
+
+  chart: any;
+
+
+  constructor() {
+    this.addBar = [];
+    this.xAxisLabels = [];
+    this.yAxisData = [];
+  }
+
+  ngOnInit() {
+    setTimeout(()=>{ 
+     this.getOptions(this.data);
+    }, 300);
+  }
+
+  add(){
+    this.addBar.push({titleArray : this.titleArray});
+  }
+
+  getOptions(data){
+    var keys = Object.keys(data[0]);
+    this.titleArray= keys.map(function(elem) {
+      return {
+        value: elem,
+        text: elem,
+      } 
+    });
+    
+  }
+
+  updateSettings(){
+    this.settingsFlag = !this.settingsFlag;
+    this.settingsFlagChange.emit(this.settingsFlag);
+    this.xAxisLabels = [];
+    this.yAxisData = [];
+    
+    try{
+      
+      this.addBar.forEach((barAttr) =>{
+        var category = d3.map(this.data, (d) => {
+          return d[barAttr.groupBy];
+        }).keys();
+        this.xAxisLabels = category;
+        //console.log("this.xAxisLabels",this.xAxisLabels);
+        //console.log(d.groupBy);
+        this.buildHierarchy(this.data, this.xAxisLabels, barAttr.groupBy);
+      });
+      
+    }catch(e){
+      console.error(e);
+    }
+    
+  }
+
+  buildHierarchy(completeJSON, uniqueKeys, groupByField){
+    let children = ['data1'];
+    for (var i = 0; i < uniqueKeys.length; i++) {
+        
+        var nodeName = uniqueKeys[i];
+
+        var size = 0;
+
+        completeJSON.forEach(function (d) {
+            //sorting data with 'Group By Field'
+            if (d[groupByField] === nodeName) {
+                size = size + 1;
+            }
+        });
+        children.push(size);
+    }
+    //console.log("this.yAxisData",this.yAxisData);
+    this.yAxisData.push(children);
+    //console.log("this.yAxisData -- > update",this.yAxisData);
+    this.barChart();
+    //return children;
+  }
+  
+  barChart(){
+   this.chart = c3.generate({
+    size: {
+        height: this.height,
+        width: this.width
+    },
+    bindto: '#chart'+this.id,
+    data: {
+        columns: this.yAxisData,
+        type: 'bar'
+        /*[
+            ['data1', 30, 200, 100, 400, 150, 250],
+            ['data2', 50, 20, 10, 40, 15, 25]
+        ]*/
+    },
+    bar: {
+        width: {
+            ratio: 0.5 // this makes bar width 50% of length between ticks
+        }
+    },
+    axis: {
+        x: {
+            type: 'category',
+            categories: this.xAxisLabels
+            /*['cat1', 'cat2', 'cat3', 'cat4', 'cat5', 'cat6', 'cat7', 'cat8', 'cat9']*/
+        }
+    }
+     });
+  }
+
+  changeChartType(value){
+    this.chart.transform(value);
+  }
+
+}

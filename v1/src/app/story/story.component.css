@@ -1,0 +1,14 @@
+div {
+  position: relative;
+  overflow: hidden;
+}
+input {
+  position: absolute;
+  font-size: 50px;
+  opacity: 0;
+  right: 0;
+  top: 0;
+}
+.has-warning{
+	color: #8a6d3b;
+}

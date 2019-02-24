@@ -1,0 +1,39 @@
+<div [id]="'chart_config'+id" *ngIf="settingsFlag">
+	<!-- *ngFor="let config of addBar; let i = index" -->
+	<div class="form-group">
+		<label for="Heading">Heading</label>
+		<input type="text" class="form-control" name="heading" [(ngModel)]="chartHeading"/>
+	</div>
+	<div class="form-group">
+		<label for="selecting Group by">Group by</label>
+		<select class="form-control" [(ngModel)]="groupBy">
+			<option *ngFor="let title of titleArray" 
+			[value]="title.value" [text]="title.text"></option>
+		</select>
+	</div>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>Chart Type</td>
+				<td>
+					<select class="form-control"  [(ngModel)]="chartType">
+						<option value="pie">Pie</option>
+						<option value="donut">Donut</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<button class="btn btn-default" *ngIf="groupBy" (click)="updateSettings()">Visualize</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+</div>
+
+<p [id]="'heading'+id" [innerHtml]="chartHeading" style="text-align: center;font-size: large;"></p>
+<div [id]="'chart'+id" [style.width]="">
+
+</div>

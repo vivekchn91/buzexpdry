@@ -1,0 +1,19 @@
+<div [id]="'chart_config'+id" *ngIf="settingsFlag">
+	<button class="btn btn-sm btn-primary pull-right" (click)="add()">
+		<i class="fas fa-puzzle-piece"></i>
+	</button>
+	<!-- *ngFor="let config of addBar; let i = index" -->
+	<div class="form-group">
+		<label for="selecting Group by">Group by</label>
+		<select class="form-control" [(ngModel)]="groupBy">
+			<option *ngFor="let title of titleArray" 
+			[value]="title.value" [text]="title.text"></option>
+		</select>
+	</div>
+	<button class="btn btn-default" *ngIf="addBar.length >0" (click)="updateSettings()">Visualize</button>
+</div>
+
+
+<div [id]="'chart'+id" [style.width]="">
+
+</div>
